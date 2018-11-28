@@ -16,7 +16,10 @@ function styles() {
   return gulp.src(paths.styles.src)
   .pipe(plumber({ errorHandle: onError }))
   .pipe(gulpif(isDebug, sourcemaps.init()))
-  .pipe(stylus({'include css': true}))
+  .pipe(stylus({
+    paths:  ['node_modules'],
+    'include css': true
+  }))
   .on('error', onError)
   .pipe(autoprefixer({
     browsers: ['last 3 versions','> 2% in RU']
