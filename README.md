@@ -27,6 +27,10 @@ https://data-live.flightradar24.com/zones/fcgi/feed.js?bounds=56.84,55.27,33.48,
 
 Задание выполнить на чистом JS без использования дополнительных библиотек и фреймворков. 
 
+# Development build with js mapping #
+
+http://fr24.haiku.click/
+
 # Webpack config #
 
     "@babel/core": "^7.1.6",
@@ -50,6 +54,7 @@ https://data-live.flightradar24.com/zones/fcgi/feed.js?bounds=56.84,55.27,33.48,
     "gulp-stylus": "^2.7.0",
     "gulp-zip": "^4.1.0",
     "pug": "^2.0.3",
+    "source-map": "^0.7.3",
     "stylus": "^0.54.5",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "^4.26.1",
