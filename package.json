@@ -54,6 +54,7 @@
     "gulp-stylus": "^2.7.0",
     "gulp-zip": "^4.1.0",
     "pug": "^2.0.3",
+    "source-map": "^0.7.3",
     "stylus": "^0.54.5",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "^4.26.1",

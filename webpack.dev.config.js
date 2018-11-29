@@ -1,4 +1,5 @@
 import pages from "./src/data/pages";
+import paths from "./src/gulp/paths";
 
 const webpackConfigDev = {
   mode: 'development',
@@ -18,8 +19,11 @@ const webpackConfigDev = {
   },
 	entry: pages,
 	output: {
-		filename: '[name].bundle.js'
+    path: '/home/inshou/projects/flightradar24/dist/js/',
+		filename: '[name].bundle.js',
+    sourceMapFilename: "[name].js.map"
 	},
+  devtool: "source-map",
   plugins: [
 
   ]
