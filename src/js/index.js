@@ -1,7 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-    console.log("dom ready");
-});
+import {fr24informer} from "./fr24";
 
-window.onload = () => {
-    console.log("window ready");
-};
+document.addEventListener("DOMContentLoaded", new fr24informer());

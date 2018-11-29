@@ -1,0 +1,41 @@
+@import "bootstrap-4-grid-styl/stylus/grid.styl"
+
+html
+  font-size 10px
+
+.fr24
+  font-family 'Arial'
+  font-size 1.2rem
+  &__messagebox
+    background darkred
+    color #fff
+    display flex
+  &__content
+    display flex
+    width 100%
+    justify-content stretch
+  &-app
+    display flex
+    flex-direction column
+    flex 1
+    margin-top 3rem
+  &-table
+    &__row
+      display flex
+      flex-direction row
+      justify-content space-between
+    &__item
+      display flex
+      justify-content center
+      align-items center
+      text-align center
+      max-width calc(100% / 8)
+      min-width calc(100% / 8)
+      flex 0
+      padding .2rem .5rem
+    &__header > &__item
+      padding .5rem 1rem 1rem
+      margin-bottom 1rem
+      border-bottom solid .1rem #000
+      font-size 1.4rem
+      font-weight 600

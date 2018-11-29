@@ -1,0 +1,106 @@
+{
+  "defaultOptions": {
+    "lang": "ru",
+    "point": "DME",
+    "timeout": 5000,
+    "sortBy": {"fieldName":"Distance",
+               "fieldNum": 8},
+    "sortAsc": "ASC",
+    "locationAccuracy": 2,
+
+    "messageBoxSelector": ".fr24__messagebox",
+    "mainSelector": ".fr24-app",
+    "contentSelectors": {
+      "containerClass": "fr24-table",
+      "headerClass": "fr24-table__header",
+      "contentClass": "fr24-table__content",
+      "rowClass": "fr24-table__row",
+      "itemClass": "fr24-table__item"
+    }
+  },
+  "dataFields": [
+    {
+      "column": 1,
+      "key": "Longitude",
+      "en": {"unit": "&deg;"},
+      "ru": {"title": "Широта","unit": "&deg;"}
+    },{
+      "column": 2,
+      "key": "Latitude",
+      "en": {"unit": "&deg;"},
+      "ru": {"title": "Долгота", "unit": "&deg;"}
+    },{
+      "column": 5,
+      "key": "Speed",
+      "func": "miles2km",
+      "en": {"unit": "km/h"},
+      "ru": {"title": "Скорость", "unit": "км/ч"}
+    },{
+      "column": 3,
+      "key": "Course",
+      "en": {"unit": "&deg;"},
+      "ru": {"title": "Курс", "unit": "&deg;"}
+    },{
+      "column": 4,
+      "key": "Altitude",
+      "func": "feet2meters",
+      "en": {"unit": "m."},
+      "ru": {"title": "Высота полета", "unit": "м."}
+    },{
+      "column": 11,
+      "key": "Departure",
+      "en": {"unit": "IATA"},
+      "ru": {"title": "Вылет", "unit": "IATA"}
+    },{
+      "column": 12,
+      "key": "Arrival",
+      "en": {"unit": "IATA"},
+      "ru": {"title": "Прилет","unit": "IATA"}
+    },{
+      "column": 13,
+      "key": "Flight number",
+      "en": {"unit": ""},
+      "ru": {"title": "Номер рейса", "unit": ""}
+    },{
+      "column": "",
+      "key": "Distance",
+      "func": "getDistanceLatLonInKm",
+      "hide": true,
+      "en": {"unit": "m."},
+      "ru": {"title": "Расстояние", "unit": "м."}
+    }
+  ],
+  "serviceUrl": "https://data-live.flightradar24.com/zones/fcgi/feed.js",
+  "serviceInput": "bounds",
+  "locations": {
+    "DME": {"lat": 55.410307, "lon": 37.902451}
+  },
+  "errors": {
+    "critical": {
+      "ru": "Выполнение приложения будет приостановлено.",
+      "en": "Application will be stopped."
+    },
+    "locationError": {
+      "ru": "Не верные координаты локации, выберите другую точку.",
+      "en": "Wrong location coordinates, select another one."
+    },
+    "noServiceUrl": {
+      "type": "critical",
+      "ru": "Не верный адрес сервиса.",
+      "en": "Wrong service url."
+    },
+    "noServiceInput": {
+      "type": "critical",
+      "ru": "Не верный параметр сервиса.",
+      "en": "Wrong service input parameter."
+    },
+    "connectionError": {
+      "ru": "Ошибка связи с сервером",
+      "en": "Server connection error"
+    },
+    "callbackFailed": {
+      "ru": "Не удалось обновить данные",
+      "en": "Callback failed"
+    }
+  }
+}
