@@ -121,6 +121,7 @@ function () {
     _classCallCheck(this, fr24daemon);
 
     this.serv = serv;
+    this.errorsOptions = _settings_json__WEBPACK_IMPORTED_MODULE_0__.errors;
     this.msgBox = new _messageBox__WEBPACK_IMPORTED_MODULE_1__["default"](serv.options.messageBoxSelector);
 
     this.loaderCallback = function () {
@@ -129,33 +130,36 @@ function () {
   }
 
   _createClass(fr24daemon, [{
-    key: "errors",
-
-    /* Обработка ошибок */
-    value: function errors(errorCode) {
-      var msg = _settings_json__WEBPACK_IMPORTED_MODULE_0__.errors[errorCode][daemon.serv.options.lang];
-
-      if (_settings_json__WEBPACK_IMPORTED_MODULE_0__.errors[errorCode]['type'] === 'critical') {
-        msg += ' ' + _settings_json__WEBPACK_IMPORTED_MODULE_0__.errors['critical'];
-      }
-
-      if (_settings_json__WEBPACK_IMPORTED_MODULE_0__.errors[errorCode]['type'] === 'critical') {
-        daemon.status = 'error';
-        throw Error(msg);
-      } else {
-        daemon.msgBox.setMsg(msg);
-      }
-    }
-  }], [{
     key: "updateTrigger",
     value: function updateTrigger() {
       setTimeout(fr24daemon.update, daemon.serv.options.timeout);
     }
   }, {
+    key: "errors",
+
+    /* Обработка ошибок */
+    value: function errors(errorCode) {
+      if (!this.errorsOptions[errorCode]) errorCode = 'nonameError';
+      var msg = this.errorsOptions[errorCode][this.serv.options.lang];
+
+      if (this.errorsOptions[errorCode]['type'] === 'critical') {
+        msg += ' ' + this.errorsOptions['critical'][this.serv.options.lang];
+      }
+
+      if (this.errorsOptions[errorCode]['type'] === 'critical') {
+        this.status = 'error';
+        this.msgBox.setMsg(msg);
+        throw Error(msg);
+      } else {
+        this.msgBox.setMsg(msg);
+        this.updateTrigger();
+      }
+    }
+  }], [{
     key: "update",
     value: function update() {
       daemon.status = "update";
-      window.fr24daemon.serv.init();
+      daemon.serv.init();
     }
   }]);
 
@@ -214,9 +218,10 @@ function () {
           } else {
             return 'connectionError';
           }
+        }).catch(function () {
+          onReady.call('connectionError');
         }).then(function (data) {
           onReady.call(data);
-          return true;
         });
       }
 
@@ -227,7 +232,10 @@ function () {
   }, {
     key: "checkData",
     value: function checkData(data) {
-      if (typeof data === 'string') daemon.error(data);
+      if (typeof data === 'string') {
+        daemon.errors(data);
+      }
+
       if (_typeof(data) === 'object') this.prepareData(data);
     }
   }, {
@@ -293,7 +301,7 @@ function () {
 
       this.dataUpdate();
       daemon.status = "finish";
-      fr24daemon.updateTrigger();
+      daemon.updateTrigger();
     }
     /* Создание основного блока */
 
@@ -567,7 +575,7 @@ function () {
 /*! exports provided: defaultOptions, dataFields, serviceUrl, serviceInput, locations, errors, default */
 /***/ (function(module) {
 
-module.exports = {"defaultOptions":{"lang":"ru","point":"DME","timeout":5000,"sortBy":{"fieldName":"Distance","fieldNum":8},"sortAsc":"ASC","locationAccuracy":2,"messageBoxSelector":".fr24__messagebox","mainSelector":".fr24-app","contentSelectors":{"containerClass":"fr24-table","headerClass":"fr24-table__header","contentClass":"fr24-table__content","rowClass":"fr24-table__row","itemClass":"fr24-table__item"}},"dataFields":[{"column":1,"key":"Longitude","en":{"unit":"&deg;"},"ru":{"title":"Широта","unit":"&deg;"}},{"column":2,"key":"Latitude","en":{"unit":"&deg;"},"ru":{"title":"Долгота","unit":"&deg;"}},{"column":5,"key":"Speed","func":"miles2km","en":{"unit":"km/h"},"ru":{"title":"Скорость","unit":"км/ч"}},{"column":3,"key":"Course","en":{"unit":"&deg;"},"ru":{"title":"Курс","unit":"&deg;"}},{"column":4,"key":"Altitude","func":"feet2meters","en":{"unit":"m."},"ru":{"title":"Высота полета","unit":"м."}},{"column":11,"key":"Departure","en":{"unit":"IATA"},"ru":{"title":"Вылет","unit":"IATA"}},{"column":12,"key":"Arrival","en":{"unit":"IATA"},"ru":{"title":"Прилет","unit":"IATA"}},{"column":13,"key":"Flight number","en":{"unit":""},"ru":{"title":"Номер рейса","unit":""}},{"column":"","key":"Distance","func":"getDistanceLatLonInKm","hide":true,"en":{"unit":"m."},"ru":{"title":"Расстояние","unit":"м."}}],"serviceUrl":"https://data-live.flightradar24.com/zones/fcgi/feed.js","serviceInput":"bounds","locations":{"DME":{"lat":55.410307,"lon":37.902451}},"errors":{"critical":{"ru":"Выполнение приложения будет приостановлено.","en":"Application will be stopped."},"locationError":{"ru":"Не верные координаты локации, выберите другую точку.","en":"Wrong location coordinates, select another one."},"noServiceUrl":{"type":"critical","ru":"Не верный адрес сервиса.","en":"Wrong service url."},"noServiceInput":{"type":"critical","ru":"Не верный параметр сервиса.","en":"Wrong service input parameter."},"connectionError":{"ru":"Ошибка связи с сервером","en":"Server connection error"},"callbackFailed":{"ru":"Не удалось обновить данные","en":"Callback failed"}}};
+module.exports = {"defaultOptions":{"lang":"ru","point":"DME","timeout":5000,"sortBy":{"fieldName":"Distance","fieldNum":8},"sortAsc":"ASC","locationAccuracy":2,"messageBoxSelector":".fr24__messagebox","mainSelector":".fr24-app","contentSelectors":{"containerClass":"fr24-table","headerClass":"fr24-table__header","contentClass":"fr24-table__content","rowClass":"fr24-table__row","itemClass":"fr24-table__item"}},"dataFields":[{"column":1,"key":"Longitude","en":{"unit":"&deg;"},"ru":{"title":"Широта","unit":"&deg;"}},{"column":2,"key":"Latitude","en":{"unit":"&deg;"},"ru":{"title":"Долгота","unit":"&deg;"}},{"column":5,"key":"Speed","func":"miles2km","en":{"unit":"km/h"},"ru":{"title":"Скорость","unit":"км/ч"}},{"column":3,"key":"Course","en":{"unit":"&deg;"},"ru":{"title":"Курс","unit":"&deg;"}},{"column":4,"key":"Altitude","func":"feet2meters","en":{"unit":"m."},"ru":{"title":"Высота полета","unit":"м."}},{"column":11,"key":"Departure","en":{"unit":"IATA"},"ru":{"title":"Вылет","unit":"IATA"}},{"column":12,"key":"Arrival","en":{"unit":"IATA"},"ru":{"title":"Прилет","unit":"IATA"}},{"column":13,"key":"Flight number","en":{"unit":""},"ru":{"title":"Номер рейса","unit":""}},{"column":"","key":"Distance","func":"getDistanceLatLonInKm","hide":true,"en":{"unit":"m."},"ru":{"title":"Расстояние","unit":"м."}}],"serviceUrl":"https://data-live.flightradar24.com/zones/fcgi/feed.js","serviceInput":"bounds","locations":{"DME":{"lat":55.410307,"lon":37.902451}},"errors":{"critical":{"ru":"Выполнение приложения будет приостановлено.","en":"Application will be stopped."},"nonameError":{"ru":"Неизвестная ошибка","en":"Unknown error","type":"critical"},"locationError":{"ru":"Не верные координаты локации, выберите другую точку.","en":"Wrong location coordinates, select another one."},"noServiceUrl":{"type":"critical","ru":"Не верный адрес сервиса.","en":"Wrong service url."},"noServiceInput":{"type":"critical","ru":"Не верный параметр сервиса.","en":"Wrong service input parameter."},"connectionError":{"ru":"Ошибка связи с сервером","en":"Server connection error"},"callbackFailed":{"ru":"Не удалось обновить данные","en":"Callback failed"}}};
 
 /***/ })
 

@@ -80,6 +80,11 @@
       "ru": "Выполнение приложения будет приостановлено.",
       "en": "Application will be stopped."
     },
+    "nonameError": {
+      "ru": "Неизвестная ошибка",
+      "en": "Unknown error",
+      "type": "critical"
+    },
     "locationError": {
       "ru": "Не верные координаты локации, выберите другую точку.",
       "en": "Wrong location coordinates, select another one."

@@ -9,33 +9,38 @@ let daemon;
 class fr24daemon{
   constructor(serv) {
     this.serv = serv;
+    this.errorsOptions = settings.errors;
     this.msgBox = new MessageBox(serv.options.messageBoxSelector);
     this.loaderCallback = function() {window.fr24daemon.serv.checkData(this);}
   }
 
-  static updateTrigger() {
+  updateTrigger() {
     setTimeout(fr24daemon.update, daemon.serv.options.timeout);
   }
 
   static update() {
     daemon.status = "update";
-    window.fr24daemon.serv.init();
+    daemon.serv.init();
   }
 
   /* Обработка ошибок */
 
   errors(errorCode) {
-    let msg = settings.errors[errorCode][daemon.serv.options.lang];
+    if (!this.errorsOptions[errorCode]) errorCode = 'nonameError';
 
-    if (settings.errors[errorCode]['type'] === 'critical') {
-      msg += ' ' + settings.errors['critical'];
+    let msg = this.errorsOptions[errorCode][this.serv.options.lang];
+
+    if (this.errorsOptions[errorCode]['type'] === 'critical') {
+      msg += ' ' + this.errorsOptions['critical'][this.serv.options.lang];
     }
 
-    if (settings.errors[errorCode]['type'] === 'critical') {
-      daemon.status = 'error';
+    if (this.errorsOptions[errorCode]['type'] === 'critical') {
+      this.status = 'error';
+      this.msgBox.setMsg(msg);
       throw Error(msg);
     } else {
-      daemon.msgBox.setMsg(msg);
+      this.msgBox.setMsg(msg);
+      this.updateTrigger();
     }
   }
 }
@@ -98,9 +103,10 @@ export class fr24informer {
             return 'connectionError';
           }
         }
-      ).then(data => {
+      ).catch(()=>{
+        onReady.call('connectionError');
+      }).then(data => {
         onReady.call(data);
-        return true;
       });
     }
     return false;
@@ -109,7 +115,7 @@ export class fr24informer {
   /* Обработка данных */
 
   checkData(data) {
-    if (typeof data === 'string') daemon.error(data);
+    if (typeof data === 'string') {daemon.errors(data);}
     if (typeof data === 'object') this.prepareData(data);
   }
 
@@ -170,7 +176,7 @@ class fr24renderer {
     }
     this.dataUpdate();
     daemon.status = "finish";
-    fr24daemon.updateTrigger();
+    daemon.updateTrigger();
   }
 
   /* Создание основного блока */
