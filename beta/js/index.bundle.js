@@ -128,21 +128,10 @@ function () {
     };
   }
 
-  _createClass(fr24daemon, null, [{
-    key: "updateTrigger",
-    value: function updateTrigger() {
-      setTimeout(fr24daemon.update, daemon.serv.options.timeout);
-    }
-  }, {
-    key: "update",
-    value: function update() {
-      daemon.status = "update";
-      window.fr24daemon.serv.init();
-    }
-    /* Обработка ошибок */
-
-  }, {
+  _createClass(fr24daemon, [{
     key: "errors",
+
+    /* Обработка ошибок */
     value: function errors(errorCode) {
       var msg = daemon.errors[errorCode][daemon.serv.options.lang];
 
@@ -156,6 +145,17 @@ function () {
       } else {
         daemon.msgBox.setMsg(msg);
       }
+    }
+  }], [{
+    key: "updateTrigger",
+    value: function updateTrigger() {
+      setTimeout(fr24daemon.update, daemon.serv.options.timeout);
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      daemon.status = "update";
+      window.fr24daemon.serv.init();
     }
   }]);
 

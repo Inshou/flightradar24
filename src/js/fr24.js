@@ -24,7 +24,7 @@ class fr24daemon{
 
   /* Обработка ошибок */
 
-  static errors(errorCode) {
+  errors(errorCode) {
     let msg = daemon.errors[errorCode][daemon.serv.options.lang];
 
     if (daemon.errors[errorCode]['type'] === 'critical') {
