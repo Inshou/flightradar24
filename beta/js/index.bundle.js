@@ -133,13 +133,13 @@ function () {
 
     /* Обработка ошибок */
     value: function errors(errorCode) {
-      var msg = daemon.errors[errorCode][daemon.serv.options.lang];
+      var msg = _settings_json__WEBPACK_IMPORTED_MODULE_0__.errors[errorCode][daemon.serv.options.lang];
 
-      if (daemon.errors[errorCode]['type'] === 'critical') {
-        msg += ' ' + daemon.errors['critical'];
+      if (_settings_json__WEBPACK_IMPORTED_MODULE_0__.errors[errorCode]['type'] === 'critical') {
+        msg += ' ' + _settings_json__WEBPACK_IMPORTED_MODULE_0__.errors['critical'];
       }
 
-      if (daemon.errors[errorCode]['type'] === 'critical') {
+      if (_settings_json__WEBPACK_IMPORTED_MODULE_0__.errors[errorCode]['type'] === 'critical') {
         daemon.status = 'error';
         throw Error(msg);
       } else {

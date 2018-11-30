@@ -25,13 +25,13 @@ class fr24daemon{
   /* Обработка ошибок */
 
   errors(errorCode) {
-    let msg = daemon.errors[errorCode][daemon.serv.options.lang];
+    let msg = settings.errors[errorCode][daemon.serv.options.lang];
 
-    if (daemon.errors[errorCode]['type'] === 'critical') {
-      msg += ' ' + daemon.errors['critical'];
+    if (settings.errors[errorCode]['type'] === 'critical') {
+      msg += ' ' + settings.errors['critical'];
     }
 
-    if (daemon.errors[errorCode]['type'] === 'critical') {
+    if (settings.errors[errorCode]['type'] === 'critical') {
       daemon.status = 'error';
       throw Error(msg);
     } else {
