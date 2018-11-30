@@ -128,10 +128,10 @@ function () {
     };
   }
 
-  _createClass(fr24daemon, [{
+  _createClass(fr24daemon, null, [{
     key: "updateTrigger",
     value: function updateTrigger() {
-      setTimeout(this.update, daemon.serv.options.timeout);
+      setTimeout(fr24daemon.update, daemon.serv.options.timeout);
     }
   }, {
     key: "update",
@@ -144,7 +144,7 @@ function () {
   }, {
     key: "errors",
     value: function errors(errorCode) {
-      var msg = daemon.errors[errorCode][daemon.options.lang];
+      var msg = daemon.errors[errorCode][daemon.serv.options.lang];
 
       if (daemon.errors[errorCode]['type'] === 'critical') {
         msg += ' ' + daemon.errors['critical'];
@@ -286,29 +286,21 @@ function () {
 
       if (!daemon.view) {
         daemon.view = {};
-        this.mainCreate();
+        fr24renderer.mainCreate();
         this.headerCreate();
-        this.contentCreate();
+        fr24renderer.contentCreate();
       }
 
       this.dataUpdate();
       daemon.status = "finish";
-      daemon.updateTrigger();
+      fr24daemon.updateTrigger();
     }
     /* Создание основного блока */
 
   }, {
-    key: "mainCreate",
-    value: function mainCreate() {
-      var target = document.querySelector(daemon.serv.options.mainSelector);
-      if (!target) daemon.error('renderMainError');
-      target.classList.add(daemon.serv.options.contentSelectors.containerClass);
-      daemon.view.main = target;
-    }
-    /* Создание шапки блока */
-
-  }, {
     key: "headerCreate",
+
+    /* Создание шапки блока */
     value: function headerCreate() {
       var header;
       header = document.createElement('div');
@@ -336,18 +328,9 @@ function () {
     /* Создание элементов контента */
 
   }, {
-    key: "contentCreate",
-    value: function contentCreate() {
-      var content;
-      content = document.createElement('div');
-      content.classList.add(daemon.serv.options.contentSelectors.contentClass);
-      daemon.view.content = content;
-      daemon.view.main.appendChild(content);
-    }
-    /* Обновление контента */
-
-  }, {
     key: "dataUpdate",
+
+    /* Обновление контента */
     value: function dataUpdate() {
       var _this2 = this;
 
@@ -404,6 +387,23 @@ function () {
         el.classList.add(arg);
       });
       return el;
+    }
+  }], [{
+    key: "mainCreate",
+    value: function mainCreate() {
+      var target = document.querySelector(daemon.serv.options.mainSelector);
+      if (!target) daemon.error('renderMainError');
+      target.classList.add(daemon.serv.options.contentSelectors.containerClass);
+      daemon.view.main = target;
+    }
+  }, {
+    key: "contentCreate",
+    value: function contentCreate() {
+      var content;
+      content = document.createElement('div');
+      content.classList.add(daemon.serv.options.contentSelectors.contentClass);
+      daemon.view.content = content;
+      daemon.view.main.appendChild(content);
     }
   }]);
 

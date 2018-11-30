@@ -13,19 +13,19 @@ class fr24daemon{
     this.loaderCallback = function() {window.fr24daemon.serv.checkData(this);}
   }
 
-  updateTrigger() {
-    setTimeout(this.update, daemon.serv.options.timeout);
+  static updateTrigger() {
+    setTimeout(fr24daemon.update, daemon.serv.options.timeout);
   }
 
-  update() {
+  static update() {
     daemon.status = "update";
     window.fr24daemon.serv.init();
   }
 
   /* Обработка ошибок */
 
-  errors(errorCode) {
-    let msg = daemon.errors[errorCode][daemon.options.lang];
+  static errors(errorCode) {
+    let msg = daemon.errors[errorCode][daemon.serv.options.lang];
 
     if (daemon.errors[errorCode]['type'] === 'critical') {
       msg += ' ' + daemon.errors['critical'];
@@ -164,18 +164,18 @@ class fr24renderer {
     this.data = data;
     if(!daemon.view) {
       daemon.view = {};
-      this.mainCreate();
+      fr24renderer.mainCreate();
       this.headerCreate();
-      this.contentCreate();
+      fr24renderer.contentCreate();
     }
     this.dataUpdate();
     daemon.status = "finish";
-    daemon.updateTrigger();
+    fr24daemon.updateTrigger();
   }
 
   /* Создание основного блока */
 
-  mainCreate() {
+  static mainCreate() {
     let target = document.querySelector(daemon.serv.options.mainSelector);
     if (!target) daemon.error('renderMainError');
     target.classList.add(daemon.serv.options.contentSelectors.containerClass);
@@ -208,7 +208,7 @@ class fr24renderer {
 
   /* Создание элементов контента */
 
-  contentCreate() {
+  static contentCreate() {
     let content;
     content = document.createElement('div');
     content.classList.add(daemon.serv.options.contentSelectors.contentClass);

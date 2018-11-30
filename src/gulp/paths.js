@@ -3,7 +3,7 @@ const dist = '';
 const paths = {
 	root: './dist',
 	templates: {
-		src: ['./src/templates/**/*.pug', '!./src/templates/blocks/*.pug', '!./src/templates/layout/**/*.pug'],
+		src: ['./src/templates/**/*.pug', '!./src/templates/blocks/**/*.pug', '!./src/templates/layout/**/*.pug'],
 		dest: './dist/'
 	},
 	styles: {
